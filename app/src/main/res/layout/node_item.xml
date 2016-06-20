@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_node"
+    android:orientation="vertical"
+    android:padding="2dp"
+    android:gravity="center"
+    >
+    <TextView
+        android:id="@+id/node_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="001-A"
+        android:textSize="25dp"
+         />
+    <Switch
+        android:id="@+id/node_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        />
+
+</LinearLayout>
