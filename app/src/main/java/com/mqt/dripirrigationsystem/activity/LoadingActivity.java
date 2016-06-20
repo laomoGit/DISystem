@@ -37,7 +37,7 @@ public class LoadingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //屏蔽标题
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view = View.inflate(this,R.layout.activity_loading,null);
 
         mAlphaAnimation = new AlphaAnimation(0.1f,1.0f);
