@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">dripIrrigationSystem</string>
+
+    <string name="app_name">智能灌溉</string>
+    <string name="login_label_username">帐号</string>
+    <string name="login_label_password">密码</string>
+    <string name="login_label_signin">登 录</string>
+    <string name="login_pwd_hint">请输入密码</string>
+    <string name="login_register_link">忘记密码？ <a href="#">找回</a></string>
+    <string name="login_username_hint">请输入帐号</string>
 </resources>
