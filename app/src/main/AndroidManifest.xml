@@ -26,6 +26,8 @@
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity
             android:name=".activity.NodeActivity" />
+        <activity
+            android:name=".activity.NodeDetailActivity"/>
     </application>
 
 </manifest>

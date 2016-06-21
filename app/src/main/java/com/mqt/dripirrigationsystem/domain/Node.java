@@ -1,9 +1,11 @@
 package com.mqt.dripirrigationsystem.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/6/20.
  */
-public class Node {
+public class Node implements Serializable{
     public int SysId;
     public String ValveName;//阀门名称编号
     public Boolean Status;//阀门工作状态

@@ -1,5 +1,6 @@
 package com.mqt.dripirrigationsystem.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -132,6 +133,13 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            //响应点击事件
+        Node node = data.get(position);
+        Intent nodeDetail = new Intent();
+        nodeDetail.setClass(this,NodeDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("node",node);
+        nodeDetail.putExtras(bundle);
+        startActivity(nodeDetail);
     }
 }
