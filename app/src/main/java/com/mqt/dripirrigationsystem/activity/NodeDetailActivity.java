@@ -13,7 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mqt.dripirrigationsystem.R;
+import com.mqt.dripirrigationsystem.dialog.CustemAlertDialog;
 import com.mqt.dripirrigationsystem.domain.Node;
+import com.mqt.dripirrigationsystem.interfac.DialogCallbackListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,7 @@ import java.util.List;
  */
 public class NodeDetailActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
     //声明赋值的控件
-    Spinner sp_Pressure;
+    Button bt_Pressure;
     TextView tv_SensorT1Value;
     TextView tv_SensorT2Value;
     TextView tv_SensorH1Value;
@@ -37,9 +39,9 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
     Node node;
 
     private List<String> type_list;
-    private List<String> pressure_list;
     private ArrayAdapter<String>type_adapter;
-    private ArrayAdapter<String>pressure_adapter;
+
+    private CustemAlertDialog alertDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,30 +59,30 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
         //返回键
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //控件初始化
-        sp_Pressure = (Spinner) findViewById(R.id.pressure_variate);
-        pressure_list = new ArrayList<String>();
-        pressure_list.add("20");
-        pressure_list.add("25");
-        pressure_list.add("30");
-        pressure_list.add("35");
+        bt_Pressure = (Button) findViewById(R.id.pressure_variate);
 
-        pressure_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, pressure_list);
-        //设置样式
-        pressure_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp_Pressure.setAdapter(pressure_adapter);
-        //选中事件
-        sp_Pressure.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        //点击事件
+        bt_Pressure.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(NodeDetailActivity.this,"选中---"+position,Toast.LENGTH_SHORT).show();
-            }
+            public void onClick(View v) {
+                    //如果改变水压值，弹出对话框，是否上传服务端
+                alertDialog = new CustemAlertDialog(NodeDetailActivity.this);
+                alertDialog.createPressureDialog(new DialogCallbackListener() {
+                    @Override
+                    public void onPositiveButton() {
+                        Toast.makeText(NodeDetailActivity.this,"确定",Toast.LENGTH_SHORT).show();
+                    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                    @Override
+                    public void onNegativeButton() {
+                    }
+
+                }).show();
+                Toast.makeText(NodeDetailActivity.this,"选中---",Toast.LENGTH_SHORT).show();
 
             }
         });
-        pressure_adapter.notifyDataSetChanged();
+
 
         tv_SensorT1Value = (TextView) findViewById(R.id.soil_temperature_variate);
         tv_SensorT2Value = (TextView) findViewById(R.id.soil_temperature_variate2);
@@ -126,6 +128,7 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
     private void setView() {
 
         // tv_Status.setText(node.Status+"");
+        bt_Pressure.setText(Double.toString(node.getPressure()));
         tv_SensorT1Value.setText(node.SensorT1Value + "℃");
         tv_SensorT2Value.setText(node.SensorT2Value + "℃");
         tv_SensorH1Value.setText(node.SensorH1Value + "%");
