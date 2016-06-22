@@ -57,7 +57,7 @@ public class CustemDialog {
         return builder.create();
     }
 
-    public DatePickerDialog createStartDate(String title,final DialogCallbackListener listener){
+    public DatePickerDialog createDateDialog(String title,final DialogCallbackListener listener){
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);

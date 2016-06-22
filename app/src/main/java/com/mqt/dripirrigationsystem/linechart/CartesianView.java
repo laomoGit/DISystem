@@ -364,7 +364,7 @@ public class CartesianView extends View {
     */
    protected void calcXgridRange() {
       // grid step (10's power lower than current range)
-      mXdivGrid = (float) Math.pow(10,Math.floor(Math.log10(Math.abs(mXmax-mXmin))));
+      mXdivGrid = (float) Math.pow(11,Math.floor(Math.log10(Math.abs(mXmax-mXmin))));
       // align Xmin to the left-most grid
       mXminGrid = (float)(mXdivGrid*Math.floor(mXmin/mXdivGrid));
       // align Xmax to the right-most grid
@@ -389,13 +389,13 @@ public class CartesianView extends View {
     */
    protected void calcYgridRange() {
       // grid step (10's power lower than current range)
-      mYdivGrid = (float) Math.pow(10,Math.floor(Math.log10(Math.abs(mYmax-mYmin))));
+      mYdivGrid = 11;
       // align Ymin to the left-most grid
-      mYminGrid = (float)(mYdivGrid*Math.floor(mYmin/mYdivGrid));
+      mYminGrid = 10;
       // align Ymax to the right-most grid
-      mYmaxGrid = (float)(mYdivGrid*Math.ceil(mYmax/mYdivGrid));
+      mYmaxGrid = 100;
       // gridnum is always between 2 and 10
-      mYgridNum = (int)((mYmaxGrid-mYminGrid)/mYdivGrid);
+      mYgridNum = 10;
       // slightly adjust for form-factor, to avoid rectangular grids (square better)
       if ((dY/dX)<1.2) {
          if (mYgridNum<=2) mYgridNum *= 5;

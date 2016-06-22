@@ -160,11 +160,13 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.start_time_bt:
-                dialog.createStartDate("设置开始时间", new DialogCallbackListener() {
+                dialog.createDateDialog("设置开始时间", new DialogCallbackListener() {
                     @Override
                     public void onPositiveButton(View view) {
                         DatePicker datePicker = (DatePicker) view;
                         int year = datePicker.getYear();
+                        int month = datePicker.getMonth();
+                        int day = datePicker.getDayOfMonth();
                         Toast.makeText(NodeDetailActivity.this,"---"+year,Toast.LENGTH_SHORT).show();
                     }
 
@@ -175,6 +177,17 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
                 }).show();
                 break;
             case R.id.end_time_bt:
+                dialog.createDateDialog("设置结束时间", new DialogCallbackListener() {
+                    @Override
+                    public void onPositiveButton(View view) {
+
+                    }
+
+                    @Override
+                    public void onNegativeButton(View view) {
+
+                    }
+                }).show();
                 break;
 
         }
