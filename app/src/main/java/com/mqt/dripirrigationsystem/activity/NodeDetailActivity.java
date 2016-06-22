@@ -1,5 +1,7 @@
 package com.mqt.dripirrigationsystem.activity;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -8,14 +10,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mqt.dripirrigationsystem.R;
-import com.mqt.dripirrigationsystem.dialog.CustemAlertDialog;
+import com.mqt.dripirrigationsystem.dialog.CustemDialog;
 import com.mqt.dripirrigationsystem.domain.Node;
 import com.mqt.dripirrigationsystem.interfac.DialogCallbackListener;
+import com.mqt.dripirrigationsystem.linechart.LineChartFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +45,8 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
     private List<String> type_list;
     private ArrayAdapter<String>type_adapter;
 
-    private CustemAlertDialog alertDialog;
+    private CustemDialog dialog;
+    private LineChartFragment lineChartFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +55,7 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.node_details);
         //获得Node
         getNdoe();
+        dialog = new CustemDialog(NodeDetailActivity.this);
         //初始化控件
         initWidget();
     }
@@ -58,28 +64,12 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
         setTitle(node.getValveName());
         //返回键
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //控件初始化
         bt_Pressure = (Button) findViewById(R.id.pressure_variate);
-
         //点击事件
         bt_Pressure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    //如果改变水压值，弹出对话框，是否上传服务端
-                alertDialog = new CustemAlertDialog(NodeDetailActivity.this);
-                alertDialog.createPressureDialog(new DialogCallbackListener() {
-                    @Override
-                    public void onPositiveButton() {
-                        Toast.makeText(NodeDetailActivity.this,"确定",Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNegativeButton() {
-                    }
-
-                }).show();
-                Toast.makeText(NodeDetailActivity.this,"选中---",Toast.LENGTH_SHORT).show();
-
+                showPressureDialog();
             }
         });
 
@@ -91,11 +81,10 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
         tv_UsePattern = (TextView) findViewById(R.id.use_pattern_variate);
         sp_Type = (Spinner) findViewById(R.id.sp_type);
         bt_query = (Button) findViewById(R.id.query_button);
-        bt_StarData = (Button) findViewById(R.id.start_time_textClock);
+        bt_StarData = (Button) findViewById(R.id.start_time_bt);
         bt_StarData.setOnClickListener(this);
-        bt_EndData = (Button) findViewById(R.id.end_time_textClock);
+        bt_EndData = (Button) findViewById(R.id.end_time_bt);
         bt_EndData.setOnClickListener(this);
-
         //控件赋值
         setView();
 
@@ -120,9 +109,30 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
                // manager.request(NodeDetailsActivity.this, callback, UrlConfig.BASEURL + "GetAllHisDataJson",
                         //"valveId=" + valveId + "&" + "sensorTypeId=" + sensorTypeId + "&" + "startTime=" + tx_StarData.getText() + "&" + "endTime=" + tx_EndData.getText());
 
+                LineChartFragment lineChartFragment = new LineChartFragment();
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.replace(R.id.spread_line_chart,lineChartFragment);
+                transaction.commit();
             }
         });
 
+    }
+
+    private void showPressureDialog() {
+        //如果改变水压值，弹出对话框，是否上传服务端
+        dialog.createPressureDialog(new DialogCallbackListener() {
+            @Override
+            public void onPositiveButton(View view) {
+                Toast.makeText(NodeDetailActivity.this,"haahh",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNegativeButton(View view) {
+
+            }
+
+        }).show();
     }
 
     private void setView() {
@@ -148,7 +158,26 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.start_time_bt:
+                dialog.createStartDate("设置开始时间", new DialogCallbackListener() {
+                    @Override
+                    public void onPositiveButton(View view) {
+                        DatePicker datePicker = (DatePicker) view;
+                        int year = datePicker.getYear();
+                        Toast.makeText(NodeDetailActivity.this,"---"+year,Toast.LENGTH_SHORT).show();
+                    }
 
+                    @Override
+                    public void onNegativeButton(View view) {
+
+                    }
+                }).show();
+                break;
+            case R.id.end_time_bt:
+                break;
+
+        }
     }
 
     @Override
@@ -165,9 +194,4 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
         Toast.makeText(this,"hhaha",Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    protected void onDestroy() {
-        Toast.makeText(this,"over",Toast.LENGTH_SHORT).show();
-        super.onDestroy();
-    }
 }

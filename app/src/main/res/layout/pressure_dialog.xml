@@ -9,12 +9,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:text="New Text"
+        android:text="水压值"
         android:id="@+id/tv_input_title" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="输入水压值"
+        android:textColorHint="#BAB8BC"
         android:singleLine="true"
         android:id="@+id/et_input_pressure"/>
     <TextView

@@ -179,7 +179,7 @@
 				android:textSize="18sp"/>
 
 			<Button
-                android:id="@+id/start_time_textClock"
+                android:id="@+id/start_time_bt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
@@ -202,7 +202,7 @@
 				android:textSize="18sp"/>
 
 			<Button
-                android:id="@+id/end_time_textClock"
+                android:id="@+id/end_time_bt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
@@ -233,11 +233,16 @@
 
 	</LinearLayout>
 
-	<!--
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/spread_line_chart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"/>-->
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+		<fragment
+			android:id="@+id/spread_line_chart"
+			android:name="com.mqt.dripirrigationsystem.linechart.LineChartFragment"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_alignParentBottom="true"/>
+	</FrameLayout>
+
 
 </LinearLayout>
