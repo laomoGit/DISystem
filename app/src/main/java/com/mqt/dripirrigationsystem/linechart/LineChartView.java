@@ -118,7 +118,12 @@ public class LineChartView extends CartesianView {
       bRedraw = true;
       postInvalidate();
    }
-   
+
+   public void deleteSerie(ChartValueSerie serie){
+      mSeries.remove(serie);
+      bRedraw = true;
+      postInvalidate();
+   }
    /** 
     * Returns ArrayList of series.
     */
@@ -185,7 +190,7 @@ public class LineChartView extends CartesianView {
    /** 
     * Draw data from all series
     */
-   protected void drawData() {
+   public void drawData() {
       float pY;
       boolean pValid;
       for (ChartValueSerie serie : mSeries) { 
@@ -216,8 +221,13 @@ public class LineChartView extends CartesianView {
          }
       }
    }
-     
-   /** 
+
+  public void reDrawData(){
+
+  }
+
+
+   /**
     * Calculates drawing coefficients
     */
    protected void calcXYcoefs() {

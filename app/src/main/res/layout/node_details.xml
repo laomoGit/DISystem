@@ -233,17 +233,8 @@
 
 	</LinearLayout>
 
-	<FrameLayout
-		android:id="@+id/fragment_line_chart"
+	<com.mqt.dripirrigationsystem.linechart.LineChartView
+		android:id="@+id/node_line_chart"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
-		<fragment
-			android:id="@+id/spread_line_chart"
-			android:name="com.mqt.dripirrigationsystem.linechart.LineChartFragment"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_alignParentBottom="true"/>
-	</FrameLayout>
-
-
+		android:layout_height="wrap_content" />
 </LinearLayout>

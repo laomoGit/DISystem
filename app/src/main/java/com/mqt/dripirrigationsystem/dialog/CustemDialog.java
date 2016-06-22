@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,9 @@ import android.widget.DatePicker;
 
 import com.mqt.dripirrigationsystem.R;
 import com.mqt.dripirrigationsystem.interfac.DialogCallbackListener;
+import com.mqt.dripirrigationsystem.linechart.ChartValue;
+import com.mqt.dripirrigationsystem.linechart.ChartValueSerie;
+import com.mqt.dripirrigationsystem.linechart.LineChartView;
 
 import java.util.Calendar;
 
@@ -40,7 +44,7 @@ public class CustemDialog {
         }
 
 
-        builder.setView(R.layout.pressure_dialog)
+        builder.setView(view)
                 .setPositiveButton("上传", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // FIRE ZE MISSILES!
@@ -72,5 +76,38 @@ public class CustemDialog {
         datePickerDialog.setTitle(title);
         return datePickerDialog;
     }
+
+   /* public Dialog createChartDialog(final DialogCallbackListener listener){
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        final View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_line_chart,null);
+        if(view == null){
+            return null;
+        }
+
+        LineChartView lineChartView = (LineChartView)view.findViewById(R.id.line_chart);
+        ChartValueSerie rr = new ChartValueSerie(Color.RED,1);
+        rr.addPoint(new ChartValue("jan",99));
+        rr.addPoint(new ChartValue("feb",80));
+        rr.addPoint(new ChartValue("mar",30));
+        rr.addPoint(new ChartValue("apr",99));
+        rr.addPoint(new ChartValue("may",80));
+        rr.addPoint(new ChartValue("jun",50));
+        rr.addPoint(new ChartValue("jul",20));
+        rr.addPoint(new ChartValue("aug",50));
+        rr.addPoint(new ChartValue("sep",80));
+
+        lineChartView.addSerie(rr);
+
+
+        builder.setView(lineChartView)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                    //listener.onPositiveButton(null);
+            }
+        });
+
+        return builder.create();
+    }*/
 
 }

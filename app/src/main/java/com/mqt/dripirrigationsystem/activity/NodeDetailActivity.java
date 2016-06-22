@@ -2,6 +2,7 @@ package com.mqt.dripirrigationsystem.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +20,10 @@ import com.mqt.dripirrigationsystem.R;
 import com.mqt.dripirrigationsystem.dialog.CustemDialog;
 import com.mqt.dripirrigationsystem.domain.Node;
 import com.mqt.dripirrigationsystem.interfac.DialogCallbackListener;
+import com.mqt.dripirrigationsystem.linechart.ChartValue;
+import com.mqt.dripirrigationsystem.linechart.ChartValueSerie;
 import com.mqt.dripirrigationsystem.linechart.LineChartFragment;
+import com.mqt.dripirrigationsystem.linechart.LineChartView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +43,9 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
     Button bt_StarData;
     Spinner sp_Type;
     Button bt_query;
-
+    LineChartView lcv_lineChart;
+    ChartValueSerie redLineValues;
+    ChartValueSerie greenLineValues;
     Node node;
 
     private List<String> type_list;
@@ -79,6 +85,8 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
         tv_SensorH1Value = (TextView) findViewById(R.id.soil_humidity_variate);
         tv_SensorH2Value = (TextView) findViewById(R.id.soil_humidity_variate2);
         tv_UsePattern = (TextView) findViewById(R.id.use_pattern_variate);
+        lcv_lineChart = (LineChartView)findViewById(R.id.node_line_chart);
+        initLineChart();
         sp_Type = (Spinner) findViewById(R.id.sp_type);
         bt_query = (Button) findViewById(R.id.query_button);
         bt_StarData = (Button) findViewById(R.id.start_time_bt);
@@ -109,14 +117,42 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
                // manager.request(NodeDetailsActivity.this, callback, UrlConfig.BASEURL + "GetAllHisDataJson",
                         //"valveId=" + valveId + "&" + "sensorTypeId=" + sensorTypeId + "&" + "startTime=" + tx_StarData.getText() + "&" + "endTime=" + tx_EndData.getText());
 
-                LineChartFragment lineChartFragment = new LineChartFragment();
+               /*LineChartFragment lineChartFragment = new LineChartFragment();
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction transaction = fm.beginTransaction();
                 transaction.replace(R.id.spread_line_chart,lineChartFragment);
-                transaction.commit();
+                transaction.commit();*/
+                lcv_lineChart.deleteSerie(redLineValues);
             }
         });
 
+    }
+
+    private void initLineChart() {
+        redLineValues = new ChartValueSerie(Color.RED,1);
+        redLineValues.addPoint(new ChartValue("jan",99));
+        redLineValues.addPoint(new ChartValue("feb",80));
+        redLineValues.addPoint(new ChartValue("mar",30));
+        redLineValues.addPoint(new ChartValue("apr",99));
+        redLineValues.addPoint(new ChartValue("may",80));
+        redLineValues.addPoint(new ChartValue("jun",50));
+        redLineValues.addPoint(new ChartValue("jul",20));
+        redLineValues.addPoint(new ChartValue("aug",50));
+        redLineValues.addPoint(new ChartValue("sep",80));
+
+        greenLineValues = new ChartValueSerie(Color.GREEN,2);
+        greenLineValues.addPoint(new ChartValue("jan",99));
+        greenLineValues.addPoint(new ChartValue("feb",80));
+        greenLineValues.addPoint(new ChartValue("mar",46));
+        greenLineValues.addPoint(new ChartValue("apr",56));
+        greenLineValues.addPoint(new ChartValue("may",80));
+        greenLineValues.addPoint(new ChartValue("jun",50));
+        greenLineValues.addPoint(new ChartValue("jul",78));
+        greenLineValues.addPoint(new ChartValue("aug",50));
+        greenLineValues.addPoint(new ChartValue("sep",80));
+
+        lcv_lineChart.addSerie(redLineValues);
+        lcv_lineChart.addSerie(greenLineValues);
     }
 
     private void showPressureDialog() {

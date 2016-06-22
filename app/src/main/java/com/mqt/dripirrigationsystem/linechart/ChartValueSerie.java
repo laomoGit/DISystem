@@ -129,7 +129,11 @@ public class ChartValueSerie {
       mPointList.remove(point);
       if (mAutoYminmax) calcRanges();
    }
-   
+
+   public void removeAllPoints(){
+      mPointList.removeAll(mPointList);
+   }
+
    /**
    * Returns a point from the points dataset.
    */

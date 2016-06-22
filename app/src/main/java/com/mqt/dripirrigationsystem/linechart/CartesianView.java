@@ -26,7 +26,9 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -146,8 +148,9 @@ public class CartesianView extends View {
       // draw bitmap
       cnv.drawBitmap(mBmp,0,0,null);
    }
-   
-   /** 
+
+
+   /**
     * Sets view padding.
     */
    public void setPadding(int pad) {
