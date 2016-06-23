@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.mqt.dripirrigationsystem.R;
 import com.mqt.dripirrigationsystem.adapter.MenuItemAdapter;
@@ -37,6 +38,8 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private DrawerLayout mDrawerLayout;
     private ListView mLvLeftMenu;
+    private List<LvMenuItem> items;
+    private LvMenuItem item;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +48,7 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
         mDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawer_layout);
         mLvLeftMenu = (ListView) findViewById(R.id.id_lv_left_menu);
         initNavigation();
-
+        setUpDrawer();
 
         //模拟一些数据
         iniData();
@@ -54,24 +57,55 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
         //监听
         mGridView.setOnItemClickListener(this);
         nodeAdapter.notifyDataSetChanged();
-        setUpDrawer();
+
     }
 
     private void setUpDrawer() {
         LayoutInflater inflater = LayoutInflater.from(this);
+
         mLvLeftMenu.addHeaderView(inflater.inflate
                 (R.layout.header_just_username,mLvLeftMenu,false));
+
+
         //创建menu的item
-        List<LvMenuItem>items = new ArrayList<LvMenuItem>(
+        items = new ArrayList<LvMenuItem>(
                 Arrays.asList(
-                        new LvMenuItem("气象数据",R.drawable.ic_event),
-                        new LvMenuItem("设置",R.drawable.ic_event),
-                        new LvMenuItem("帮助与反馈",R.drawable.ic_event),
-                        new LvMenuItem("退出应用",R.drawable.ic_event)
+                        new LvMenuItem("气象数据",R.drawable.collections_cloud),
+                        new LvMenuItem("设置",R.drawable.action_settings),
+                        new LvMenuItem("帮助与反馈",R.drawable.action_help),
+                        new LvMenuItem("退出应用",R.drawable.navigation_cancel)
                 )
         );
 
         mLvLeftMenu.setAdapter(new MenuItemAdapter(NodeActivity.this,items));
+        //左侧菜单listView 的点击事件
+        mLvLeftMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0){
+                    return;
+                }
+               item = items.get(position-1);
+
+                switch(item.getIcon()){
+                    case R.drawable.collections_cloud:
+                        Toast.makeText(NodeActivity.this,"ko",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.drawable.action_settings:
+                        Toast.makeText(NodeActivity.this,"ko1",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.drawable.action_help:
+                        Toast.makeText(NodeActivity.this,"ko2",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.drawable.navigation_cancel:
+                        Toast.makeText(NodeActivity.this,"ko3",Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        });
 
     }
 
@@ -196,6 +230,7 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home){
             mDrawerLayout.openDrawer(GravityCompat.START);
+            mDrawerLayout.setFocusable(true);
             return true;
         }
         return super.onOptionsItemSelected(item);
