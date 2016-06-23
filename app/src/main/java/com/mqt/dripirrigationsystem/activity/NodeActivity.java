@@ -15,7 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mqt.dripirrigationsystem.R;
@@ -24,6 +27,7 @@ import com.mqt.dripirrigationsystem.adapter.NodeAdapter;
 import com.mqt.dripirrigationsystem.domain.LvMenuItem;
 import com.mqt.dripirrigationsystem.domain.Node;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +35,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/20.
  */
-public class NodeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class NodeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     private GridView mGridView;
     private NodeAdapter nodeAdapter;
     private ArrayList<Node> data;
@@ -40,6 +44,14 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
     private ListView mLvLeftMenu;
     private List<LvMenuItem> items;
     private LvMenuItem item;
+
+    private TextView tv_username;
+    private ImageView iv_userportrait;
+
+    private Intent mIntent;
+
+    private static final int USER_EDIT_CODE = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,9 +74,12 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void setUpDrawer() {
         LayoutInflater inflater = LayoutInflater.from(this);
-
-        mLvLeftMenu.addHeaderView(inflater.inflate
-                (R.layout.header_just_username,mLvLeftMenu,false));
+        RelativeLayout headerLayout = (RelativeLayout) inflater.inflate(R.layout.header_just_username,mLvLeftMenu,false);
+        tv_username = (TextView)headerLayout.findViewById(R.id.id_tv_username);
+        tv_username.setOnClickListener(this);
+        iv_userportrait = (ImageView)headerLayout.findViewById(R.id.id_iv_user_portrait);
+        iv_userportrait.setOnClickListener(this);
+        mLvLeftMenu.addHeaderView(headerLayout);
 
 
         //创建menu的item
@@ -218,12 +233,12 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             //响应点击事件
         Node node = data.get(position);
-        Intent nodeDetail = new Intent();
-        nodeDetail.setClass(this,NodeDetailActivity.class);
+        mIntent = new Intent();
+        mIntent.setClass(this,NodeDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("node",node);
-        nodeDetail.putExtras(bundle);
-        startActivity(nodeDetail);
+        mIntent.putExtras(bundle);
+        startActivity(mIntent);
     }
 
     @Override
@@ -234,5 +249,20 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.id_iv_user_portrait:
+            case R.id.id_tv_username:
+                mIntent = new Intent(NodeActivity.this,PortraitActivity.class);
+                //Bundle bundle = new Bundle();
+                //bundle.putSerializable("userPortrait", (Serializable) getResources().getDrawable(R.drawable.user_portrait));
+                startActivityForResult(mIntent,USER_EDIT_CODE);
+                break;
+            default:
+                break;
+        }
     }
 }
