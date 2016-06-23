@@ -10,13 +10,13 @@ import com.mqt.dripirrigationsystem.R;
 /**
  * Created by Administrator on 2016/6/23.
  */
-public class PortraitActivity extends AppCompatActivity{
+public class WeatherActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("个人信息编辑");
+        setTitle("气象站数据");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_edit_user);
+        setContentView(R.layout.activity_weather);
     }
 
     @Override

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+    </RelativeLayout>
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".activity.WeatherActivity">
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/tv_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="编号:"
+                android:textSize="15dp"
+                android:textStyle="italic"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/tv_temper"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:text="温度："
+                android:textSize="20dp"/>
+
+            <TextView
+                android:id="@+id/tv_humidity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:text="湿度："
+                android:textSize="20dp"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/tv_airpressure"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:text="风向："
+                android:textSize="20dp"/>
+
+            <TextView
+                android:id="@+id/tv_airspeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:text="风速："
+                android:textSize="20dp"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/tv_illumination"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:text="光照强度："
+                android:textSize="20dp"/>
+
+            <TextView
+                android:id="@+id/tv_radiate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:text="雨量："
+                android:textSize="20dp"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/tv_recvTime"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="上传时间："
+                android:textSize="20dp"/>
+        </TableRow>
+    </TableLayout>
+    <!--
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="#696969"/>
+    <TextView
+        android:id="@+id/tv_weather_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:textSize="17dp"
+        android:text="历史数据："/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="6dp"
+            android:text="开始时间："
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/start_time_textClock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="2016-05-18"
+            android:layout_marginLeft="20dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp"
+            android:text="结束时间："
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/end_time_textClock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="2016-06-01"
+            android:layout_marginLeft="20dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:id="@+id/sp_wea_type"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="6dp"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:id="@+id/query_weather_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查询"/>
+
+    </LinearLayout>-->
+
+</LinearLayout>

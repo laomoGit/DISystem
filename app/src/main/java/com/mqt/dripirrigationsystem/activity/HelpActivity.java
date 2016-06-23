@@ -10,13 +10,14 @@ import com.mqt.dripirrigationsystem.R;
 /**
  * Created by Administrator on 2016/6/23.
  */
-public class PortraitActivity extends AppCompatActivity{
+public class HelpActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("个人信息编辑");
+        setTitle("帮助与反馈");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_edit_user);
+
+        setContentView(R.layout.activity_help);
     }
 
     @Override
