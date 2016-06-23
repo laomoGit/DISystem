@@ -1,20 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/id_drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="6dp"
-    android:paddingTop="6dp"
-    android:paddingLeft="4dp"
-    android:paddingRight="4dp"
-    android:background="#E8E8E8">
+    android:background="#BAB8BC"
+    android:fitsSystemWindows="true">
 
-    <GridView
-        android:id = "@+id/gridView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="3"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="2dp"
-        android:horizontalSpacing="2dp"
-       ></GridView>
-</LinearLayout>
+        android:padding="4dp">
+<!--
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/id_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>-->
+
+        <GridView
+            android:id = "@+id/gridView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="2dp"
+            android:horizontalSpacing="2dp"
+            ></GridView>
+    </RelativeLayout>
+
+
+    <ListView
+        android:id="@+id/id_lv_left_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:paddingTop="0dp"
+        android:background="#ffffffff"
+        android:clipToPadding="false"
+        android:divider="@drawable/menu_divider"
+        android:listSelector="?attr/selectableItemBackground"
+        />
+</android.support.v4.widget.DrawerLayout>

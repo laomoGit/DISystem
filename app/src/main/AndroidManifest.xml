@@ -25,7 +25,8 @@
             android:name=".activity.LoginActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity
-            android:name=".activity.NodeActivity" />
+            android:name=".activity.NodeActivity"
+            />
         <activity
             android:name=".activity.NodeDetailActivity"/>
     </application>

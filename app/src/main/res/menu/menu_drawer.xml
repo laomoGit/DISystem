@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+        <item
+            android:id="@+id/item_share"
+            android:checkable="true"
+            android:title="百度详细"/>
+        <item
+            android:id = "@+id/item_about"
+            android:checkable="true"
+            android:title="关于开发意图"/>
+
+
+
+</menu>
