@@ -42,6 +42,6 @@
         android:background="#ffffffff"
         android:clipToPadding="false"
         android:divider="@drawable/menu_divider"
-        android:listSelector="?attr/selectableItemBackground"
+        android:listSelector="#A1D4F3"
         />
 </android.support.v4.widget.DrawerLayout>

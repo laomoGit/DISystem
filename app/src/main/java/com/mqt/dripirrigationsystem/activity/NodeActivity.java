@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mqt.dripirrigationsystem.R;
 import com.mqt.dripirrigationsystem.adapter.MenuItemAdapter;
@@ -45,7 +44,7 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
     private ImageView iv_userportrait;
 
     private Intent mIntent;
-
+    private boolean closeMenu = false;
     private static final int USER_EDIT_CODE = 0;
 
     @Override
@@ -83,6 +82,9 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
                 Arrays.asList(
                         new LvMenuItem("气象数据",R.drawable.collections_cloud),
                         new LvMenuItem("设置",R.drawable.action_settings),
+                        new LvMenuItem("设置闹钟",R.drawable.access_alarms),
+                        new LvMenuItem("拍照存档",R.drawable.access_camera),
+                        new LvMenuItem("监控视频",R.drawable.access_video),
                         new LvMenuItem("帮助与反馈",R.drawable.action_help),
                         new LvMenuItem("退出应用",R.drawable.navigation_cancel)
                 )
@@ -100,16 +102,19 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 switch(item.getIcon()){
                     case R.drawable.collections_cloud:
-                        Toast.makeText(NodeActivity.this,"ko",Toast.LENGTH_SHORT).show();
+                        mIntent = new Intent(NodeActivity.this,WeatherActivity.class);
+                        startActivity(mIntent);
                         break;
                     case R.drawable.action_settings:
-                        Toast.makeText(NodeActivity.this,"ko1",Toast.LENGTH_SHORT).show();
+                        mIntent = new Intent(NodeActivity.this,SettingActivity.class);
+                        startActivity(mIntent);
                         break;
                     case R.drawable.action_help:
-                        Toast.makeText(NodeActivity.this,"ko2",Toast.LENGTH_SHORT).show();
+                        mIntent = new Intent(NodeActivity.this,HelpActivity.class);
+                        startActivity(mIntent);
                         break;
                     case R.drawable.navigation_cancel:
-                        Toast.makeText(NodeActivity.this,"ko3",Toast.LENGTH_SHORT).show();
+                        finish();
                         break;
                     default:
                         break;
@@ -128,6 +133,7 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
     }
 
     private void iniData() {
@@ -240,8 +246,13 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            mDrawerLayout.openDrawer(GravityCompat.START);
-            mDrawerLayout.setFocusable(true);
+            if(!closeMenu){
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                closeMenu = true;
+            }else{
+                mDrawerLayout.closeDrawers();
+                closeMenu = false;
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);

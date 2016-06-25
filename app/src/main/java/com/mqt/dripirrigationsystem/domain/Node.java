@@ -1,108 +1,161 @@
 package com.mqt.dripirrigationsystem.domain;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 
 /**
  * Created by Administrator on 2016/6/20.
  */
 public class Node implements Serializable{
-    public int SysId;
-    public String ValveName;//阀门名称编号
-    public Boolean Status;//阀门工作状态
-    public Boolean UsePattern;//阀门工作模式
-    public Double Pressure;//水压值
-    public Double SensorT1Value;//温度
-    public Double SensorT2Value;
-    public Double SensorH1Value;//湿度
-    public Double SensorH2Value;
-    public String Address;
-    public String Number;
+    private int userId; //用户的id
+    private int sysId; //阀门ID
+    private String valueName;//阀门名称
+    private Boolean status;//阀门状态
+    private Boolean usePattern;//工作模式（true为自动，false为手动）
+    private int pressure;//水压值
+    //private String sensorsData;//传感器的数据（不进行描述）
+    private int sensorT1Value;//一号温度传感器的值
+    private int sensorT2Value;
+    private int sensorH1Value;//一号湿度传感器的值
+    private int sensorH2Value;
+    private String recvTime;//用户编辑修改时间
+    /*public String Address;
+    public String Number;*/
 
-    public Double getSensorT1Value() {
-        return SensorT1Value;
+    public Node(JSONObject obj) throws JSONException {
+            if (obj.has("userId")) {
+                userId = obj.getInt("userId");
+            }
+            if (obj.has("sysId")) {
+
+                sysId = obj.getInt("sysId");
+            }
+            if (obj.has("valueName")) {
+                valueName = obj.getString("valueName");
+            }
+            if (obj.has("status")) {
+                if(obj.getString("status").equals("true")){
+                    status = true;
+                }
+                if(obj.getString("status").equals("false")){
+                    status = false;
+                }
+            }
+            if (obj.has("usePattern")) {
+                if(obj.getString("usePattern").equals("true")){
+                    usePattern = true;
+                }
+                if(obj.getString("usePattern").equals("false")){
+                    usePattern = false;
+                }
+            }
+            if (obj.has("pressure")) {
+                pressure = obj.getInt("pressure");
+            }
+            if (obj.has("sensorT1Value")) {
+                sensorT1Value = obj.getInt("sensorT1Value");
+            }
+            if (obj.has("sensorT2Value")) {
+                sensorT2Value = obj.getInt("sensorT2Value");
+            }
+            if (obj.has("sensorH1Value")) {
+                sensorH1Value = obj.getInt("sensorH1Value");
+            }
+            if (obj.has("sensorH2Value")) {
+                sensorH2Value = obj.getInt("sensorH2Value");
+            }
+            if (obj.has("recvTime")) {
+                recvTime = obj.getString("recvTime");
+            }
     }
 
-    public void setSensorT1Value(Double sensorT1Value) {
-        SensorT1Value = sensorT1Value;
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getSysId() {
-        return SysId;
+        return sysId;
     }
 
     public void setSysId(int sysId) {
-        SysId = sysId;
+        this.sysId = sysId;
     }
 
-    public String getValveName() {
-        return ValveName;
+    public String getValueName() {
+        return valueName;
     }
 
-    public void setValveName(String valveName) {
-        ValveName = valveName;
+    public void setValueName(String valueName) {
+        this.valueName = valueName;
     }
 
     public Boolean getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(Boolean status) {
-        Status = status;
-    }
-
-    public Double getPressure() {
-        return Pressure;
-    }
-
-    public void setPressure(Double pressure) {
-        Pressure = pressure;
+        this.status = status;
     }
 
     public Boolean getUsePattern() {
-        return UsePattern;
+        return usePattern;
     }
 
     public void setUsePattern(Boolean usePattern) {
-        UsePattern = usePattern;
+        this.usePattern = usePattern;
     }
 
-    public Double getSensorT2Value() {
-        return SensorT2Value;
+    public int getPressure() {
+        return pressure;
     }
 
-    public void setSensorT2Value(Double sensorT2Value) {
-        SensorT2Value = sensorT2Value;
+    public void setPressure(int pressure) {
+        this.pressure = pressure;
     }
 
-    public Double getSensorH1Value() {
-        return SensorH1Value;
+    public int getSensorT1Value() {
+        return sensorT1Value;
     }
 
-    public void setSensorH1Value(Double sensorH1Value) {
-        SensorH1Value = sensorH1Value;
+    public void setSensorT1Value(int sensorT1Value) {
+        this.sensorT1Value = sensorT1Value;
     }
 
-    public Double getSensorH2Value() {
-        return SensorH2Value;
+    public int getSensorT2Value() {
+        return sensorT2Value;
     }
 
-    public void setSensorH2Value(Double sensorH2Value) {
-        SensorH2Value = sensorH2Value;
+    public void setSensorT2Value(int sensorT2Value) {
+        this.sensorT2Value = sensorT2Value;
     }
 
-    public String getAddress() {
-        return Address;
+    public int getSensorH1Value() {
+        return sensorH1Value;
     }
 
-    public void setAddress(String address) {
-        Address = address;
+    public void setSensorH1Value(int sensorH1Value) {
+        this.sensorH1Value = sensorH1Value;
     }
 
-    public String getNumber() {
-        return Number;
+    public int getSensorH2Value() {
+        return sensorH2Value;
     }
 
-    public void setNumber(String number) {
-        Number = number;
+    public void setSensorH2Value(int sensorH2Value) {
+        this.sensorH2Value = sensorH2Value;
+    }
+
+    public String getRecvTime() {
+        return recvTime;
+    }
+
+    public void setRecvTime(String recvTime) {
+        this.recvTime = recvTime;
     }
 }

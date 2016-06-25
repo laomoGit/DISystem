@@ -11,7 +11,7 @@ import com.mqt.dripirrigationsystem.R;
 /**
  * Created by Administrator on 2016/6/23.
  */
-public class Activity_setting extends AppCompatActivity{
+public class SettingActivity extends AppCompatActivity{
     private Switch s_refresh;
 
     @Override
