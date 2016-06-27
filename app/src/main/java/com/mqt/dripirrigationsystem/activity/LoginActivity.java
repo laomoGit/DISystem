@@ -19,6 +19,7 @@ import com.mqt.dripirrigationsystem.R;
 import com.mqt.dripirrigationsystem.interfac.OnUIRequestCallback;
 import com.mqt.dripirrigationsystem.manager.UserManager;
 import com.mqt.dripirrigationsystem.service.LoginService;
+import com.mqt.dripirrigationsystem.service.NodeService;
 
 /**
  * Created by Administrator on 2016/6/20.
@@ -52,8 +53,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             //登录成功后实现本地持久化。
             boolean isRemember = spf.getBoolean(IS_REMEMBER,false);
+            UserManager manager = UserManager.getInstance();
             if(!isRemember){
-                UserManager manager = UserManager.getInstance();
                 SharedPreferences.Editor editor = spf.edit();
                 editor.putBoolean(IS_REMEMBER,true).commit();
                 editor.putString(USER_NAME,manager.getUser(0).getUserName()).commit();
@@ -61,6 +62,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 editor.putInt(USER_ID,manager.getUser(0).getUserId()).commit();
             }
             Intent mainActivity = new Intent(LoginActivity.this,NodeActivity.class);
+            mainActivity.putExtra("userId",manager.getUser(0).getUserId());
             startActivity(mainActivity);
             LoginActivity.this.finish();
 

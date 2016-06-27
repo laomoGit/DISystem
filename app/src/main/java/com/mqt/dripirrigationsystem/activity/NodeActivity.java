@@ -16,12 +16,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mqt.dripirrigationsystem.R;
 import com.mqt.dripirrigationsystem.adapter.MenuItemAdapter;
 import com.mqt.dripirrigationsystem.adapter.NodeAdapter;
 import com.mqt.dripirrigationsystem.domain.LvMenuItem;
 import com.mqt.dripirrigationsystem.domain.Node;
+import com.mqt.dripirrigationsystem.interfac.OnUIRequestCallback;
+import com.mqt.dripirrigationsystem.manager.NodeManager;
+import com.mqt.dripirrigationsystem.service.NodeService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,25 +49,56 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private Intent mIntent;
     private boolean closeMenu = false;
+
+    private int userId;
+
     private static final int USER_EDIT_CODE = 0;
+    private static final String NODE_URL = "http://192.168.43.82:8080/DripIrrigationSystem/node";
+
+    private NodeService nodeService;
+    private NodeManager nodeManager;
+    private OnUIRequestCallback callback = new OnUIRequestCallback() {
+        @Override
+        public void onUIRequestStart() {
+
+        }
+
+        @Override
+        public void onUIRequestSuccess(String res) {
+
+        }
+
+        @Override
+        public void onUIRequestError(Exception e) {
+            Toast.makeText(NodeActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_node);
+        userId = getIntent().getIntExtra("userId",0);
+
+        nodeService = new NodeService();
+        nodeService.sendRequest(NodeActivity.this,callback,NODE_URL,"GET","userid="+userId);
+        nodeManager = NodeManager.getInstance();
+
         mGridView = (GridView)findViewById(R.id.gridView);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawer_layout);
         mLvLeftMenu = (ListView) findViewById(R.id.id_lv_left_menu);
         initNavigation();
         setUpDrawer();
 
-        //模拟一些数据
-        //iniData();
-       /* nodeAdapter = new NodeAdapter(this,data);
-        mGridView.setAdapter(nodeAdapter);
-        //监听
-        mGridView.setOnItemClickListener(this);
-        nodeAdapter.notifyDataSetChanged();*/
+        //是否返回有数据
+        if(isInitData()){
+            nodeAdapter = new NodeAdapter(this,nodeManager.getNodes());
+            mGridView.setAdapter(nodeAdapter);
+            //监听
+            mGridView.setOnItemClickListener(this);
+            nodeAdapter.notifyDataSetChanged();
+        }
+
 
     }
 
@@ -136,105 +171,14 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-   /*private void iniData() {
-        data = new ArrayList<Node>();
-        Node node = new Node();
-        node.setSysId(1);
-        node.setValveName("0001-A");
-        node.setUsePattern(true);
-        node.setPressure(20.0);
-        node.setStatus(false);
-        node.setAddress("beijing");
-        node.setNumber("20160620");
-        node.setSensorH1Value(30.0);
-        node.setSensorH2Value(31.0);
-        node.setSensorT1Value(25.4);
-        node.setSensorT2Value(28.9);
-
-        data.add(node);
-        node = null;
-        node = new Node();
-
-        node.setSysId(2);
-        node.setValveName("0002-A");
-        node.setUsePattern(true);
-        node.setPressure(20.0);
-        node.setStatus(true);
-        node.setAddress("beijing");
-        node.setNumber("20160621");
-        node.setSensorH1Value(30.0);
-        node.setSensorH2Value(31.0);
-        node.setSensorT1Value(25.4);
-        node.setSensorT2Value(28.9);
-
-        data.add(node);
-        node = null;
-        node = new Node();
-
-        node.setSysId(3);
-        node.setValveName("0003-A");
-        node.setUsePattern(true);
-        node.setPressure(20.0);
-        node.setStatus(true);
-        node.setAddress("beijing");
-        node.setNumber("20160621");
-        node.setSensorH1Value(29.0);
-        node.setSensorH2Value(34.0);
-        node.setSensorT1Value(26.4);
-        node.setSensorT2Value(28.9);
-
-        data.add(node);
-        node = null;
-        node = new Node();
-        node.setSysId(4);
-        node.setValveName("0004-A");
-        node.setUsePattern(true);
-        node.setPressure(20.0);
-        node.setStatus(true);
-        node.setAddress("beijing");
-        node.setNumber("20160621");
-        node.setSensorH1Value(29.0);
-        node.setSensorH2Value(34.0);
-        node.setSensorT1Value(26.4);
-        node.setSensorT2Value(28.9);
-
-        data.add(node);
-        node = null;
-        node = new Node();
-        node.setSysId(5);
-        node.setValveName("0005-A");
-        node.setUsePattern(true);
-        node.setPressure(20.0);
-        node.setStatus(false);
-        node.setAddress("beijing");
-        node.setNumber("20160621");
-        node.setSensorH1Value(29.0);
-        node.setSensorH2Value(34.0);
-        node.setSensorT1Value(26.4);
-        node.setSensorT2Value(28.9);
-
-        data.add(node);
-        node = null;
-        node = new Node();
-        node.setSysId(6);
-        node.setValveName("0006-B");
-        node.setUsePattern(true);
-        node.setPressure(20.0);
-        node.setStatus(true);
-        node.setAddress("beijing");
-        node.setNumber("20160621");
-        node.setSensorH1Value(29.0);
-        node.setSensorH2Value(34.0);
-        node.setSensorT1Value(26.4);
-        node.setSensorT2Value(28.9);
-
-        data.add(node);
-    }*/
+   private boolean isInitData() {
+       return nodeManager.getNodeCount()>0?true:false;
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             //响应点击事件
-        Node node = data.get(position);
+        Node node = nodeManager.getNode(position);
         mIntent = new Intent();
         mIntent.setClass(this,NodeDetailActivity.class);
         Bundle bundle = new Bundle();
