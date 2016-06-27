@@ -75,4 +75,12 @@ public class User {
     public void setUserImg(String userImg) {
         this.userImg = userImg;
     }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 }

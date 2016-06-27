@@ -35,7 +35,7 @@
 			android:textCursorDrawable="@null"
 			android:inputType="text"
 			android:singleLine="true"
-			android:text="****"/>
+			android:text="jack"/>
 		<!-- 密码 text -->
 		<TextView
 			android:id="@+id/login_password_input"
@@ -55,18 +55,38 @@
 			android:inputType="textPassword"
 			android:textCursorDrawable="@null"
 			android:singleLine="true"
-			android:text="123456"
+			android:text="123"
 			/>
 		<!-- 登录button -->
-		<Button
-			android:id="@+id/requst_btn"
-			android:layout_width="wrap_content"
+		<LinearLayout
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:orientation="horizontal"
 			android:layout_alignRight="@id/wel_password_et"
 			android:layout_below="@id/wel_password_et"
-			android:background="@drawable/blue_button"
-			android:text="@string/login_label_signin"
-			/>
+			android:id="@+id/linearLayout"></LinearLayout>
+
+		<Button
+            android:id="@+id/requst_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:background="@drawable/blue_button"
+            android:text="@string/login_label_signin"
+			android:layout_below="@+id/wel_password_et"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentEnd="true" />
+
+		<CheckBox
+			android:id="@+id/login_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_checkbox"
+            android:textColor="#888"
+			android:layout_alignBottom="@+id/requst_btn"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentStart="true" />
+
 	</RelativeLayout>
 
 

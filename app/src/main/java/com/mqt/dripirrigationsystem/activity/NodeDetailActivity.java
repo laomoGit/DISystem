@@ -31,8 +31,8 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/20.
  */
-public class NodeDetailActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
-    //声明赋值的控件
+public class NodeDetailActivity extends AppCompatActivity  {
+    //声明赋值的控件implements View.OnClickListener, AdapterView.OnItemClickListener
     Button bt_Pressure;
     TextView tv_SensorT1Value;
     TextView tv_SensorT2Value;
@@ -60,14 +60,14 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
 
         setContentView(R.layout.node_details);
         //获得Node
-        getNdoe();
+        //getNdoe();
         dialog = new CustemDialog(NodeDetailActivity.this);
         //初始化控件
-        initWidget();
+        //initWidget();
     }
 
-    private void initWidget() {
-        setTitle(node.getValveName());
+    /*private void initWidget() {
+        //setTitle(node.getValveName());
         //返回键
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         bt_Pressure = (Button) findViewById(R.id.pressure_variate);
@@ -109,7 +109,7 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
         bt_query.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int valveId = node.SysId;
+                int valveId = node.sysId;
                 int sensorTypeId = 3;
                 Toast.makeText(NodeDetailActivity.this,"haha",Toast.LENGTH_SHORT).show();
                 //manager = HistroyManager.getInstanc();
@@ -117,11 +117,11 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
                // manager.request(NodeDetailsActivity.this, callback, UrlConfig.BASEURL + "GetAllHisDataJson",
                         //"valveId=" + valveId + "&" + "sensorTypeId=" + sensorTypeId + "&" + "startTime=" + tx_StarData.getText() + "&" + "endTime=" + tx_EndData.getText());
 
-               /*LineChartFragment lineChartFragment = new LineChartFragment();
+               *//*LineChartFragment lineChartFragment = new LineChartFragment();
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction transaction = fm.beginTransaction();
                 transaction.replace(R.id.spread_line_chart,lineChartFragment);
-                transaction.commit();*/
+                transaction.commit();*//*
                 lcv_lineChart.deleteSerie(redLineValues);
             }
         });
@@ -175,11 +175,11 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
 
         // tv_Status.setText(node.Status+"");
         bt_Pressure.setText(Double.toString(node.getPressure()));
-        tv_SensorT1Value.setText(node.SensorT1Value + "℃");
-        tv_SensorT2Value.setText(node.SensorT2Value + "℃");
-        tv_SensorH1Value.setText(node.SensorH1Value + "%");
-        tv_SensorH2Value.setText(node.SensorH2Value + "%");
-        if (node.UsePattern) {
+        tv_SensorT1Value.setText(node.sensorT1Value + "℃");
+        tv_SensorT2Value.setText(node.sensorT2Value + "℃");
+        tv_SensorH1Value.setText(node.sensorH1Value + "%");
+        tv_SensorH2Value.setText(node.sensorH2Value + "%");
+        if (node.usePattern) {
             tv_UsePattern.setText("自动");
         } else {
             tv_UsePattern.setText("手动");
@@ -242,5 +242,5 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(this,"hhaha",Toast.LENGTH_SHORT).show();
     }
-
+*/
 }

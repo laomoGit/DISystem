@@ -62,8 +62,8 @@ public class NodeAdapter extends BaseAdapter{
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.tv_nodeTitle.setText(data.get(position).getValveName());
-        viewHolder.sc_nodeStatus.setChecked(data.get(position).getStatus());
+        //viewHolder.tv_nodeTitle.setText(data.get(position).getValveName());
+        //viewHolder.sc_nodeStatus.setChecked(data.get(position).getStatus());
         return view;
     }
 

@@ -12,8 +12,8 @@ public class Node implements Serializable{
     private int userId; //用户的id
     private int sysId; //阀门ID
     private String valueName;//阀门名称
-    private Boolean status;//阀门状态
-    private Boolean usePattern;//工作模式（true为自动，false为手动）
+    private boolean status;//阀门状态
+    private boolean usePattern;//工作模式（true为自动，false为手动）
     private int pressure;//水压值
     //private String sensorsData;//传感器的数据（不进行描述）
     private int sensorT1Value;//一号温度传感器的值

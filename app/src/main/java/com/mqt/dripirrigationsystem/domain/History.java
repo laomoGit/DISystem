@@ -8,7 +8,7 @@ import org.json.JSONObject;
  */
 public class History {
     private int sysId;
-    private Boolean status;
+    private boolean status;
     private int sensorT1Value;
     private int sensorT2Value;
     private int sensorH1Value;

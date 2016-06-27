@@ -1,6 +1,6 @@
 package com.mqt.dripirrigationsystem.interfac;
 
-public interface onUIRequestCallBack {
+public interface OnUIRequestCallback {
 	void onUIRequestStart();
 
 	void onUIRequestSuccess(String res);

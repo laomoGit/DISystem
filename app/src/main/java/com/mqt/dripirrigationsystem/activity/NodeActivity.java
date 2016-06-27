@@ -58,12 +58,12 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
         setUpDrawer();
 
         //模拟一些数据
-        iniData();
-        nodeAdapter = new NodeAdapter(this,data);
+        //iniData();
+       /* nodeAdapter = new NodeAdapter(this,data);
         mGridView.setAdapter(nodeAdapter);
         //监听
         mGridView.setOnItemClickListener(this);
-        nodeAdapter.notifyDataSetChanged();
+        nodeAdapter.notifyDataSetChanged();*/
 
     }
 
@@ -136,7 +136,7 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    private void iniData() {
+   /*private void iniData() {
         data = new ArrayList<Node>();
         Node node = new Node();
         node.setSysId(1);
@@ -229,7 +229,7 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
         node.setSensorT2Value(28.9);
 
         data.add(node);
-    }
+    }*/
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
