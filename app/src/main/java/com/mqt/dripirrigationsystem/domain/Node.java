@@ -1,5 +1,7 @@
 package com.mqt.dripirrigationsystem.domain;
 
+import com.mqt.dripirrigationsystem.utils.LogInfo;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,15 +46,19 @@ public class Node implements Serializable{
                 }
             }
             if (obj.has("usePattern")) {
+                LogInfo.info("usePt="+obj.getString("usePattern"));
                 if(obj.getString("usePattern").equals("true")){
                     usePattern = true;
+                    LogInfo.info("usePt="+obj.getString("usePattern"));
                 }
                 if(obj.getString("usePattern").equals("false")){
                     usePattern = false;
+                    LogInfo.info("usePf"+obj.getString("usePattern"));
                 }
             }
             if (obj.has("pressure")) {
                 pressure = obj.getInt("pressure");
+                LogInfo.info(obj.getInt("pressure")+"");
             }
             if (obj.has("sensorT1Value")) {
                 sensorT1Value = obj.getInt("sensorT1Value");

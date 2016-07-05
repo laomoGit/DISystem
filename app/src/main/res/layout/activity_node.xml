@@ -11,6 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:padding="4dp">
 <!--
         <android.support.v7.widget.Toolbar
@@ -21,6 +22,15 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>-->
 
+        <ProgressBar
+            android:id="@+id/loading_process_dialog_progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="false"
+            android:indeterminateDrawable="@drawable/dialog_style_color"
+            android:visibility="invisible"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
         <GridView
             android:id = "@+id/gridView"
             android:layout_width="match_parent"
@@ -31,7 +41,6 @@
             android:horizontalSpacing="2dp"
             ></GridView>
     </RelativeLayout>
-
 
     <ListView
         android:id="@+id/id_lv_left_menu"

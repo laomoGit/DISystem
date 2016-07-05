@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:shrinkColumns="0"
+        android:stretchColumns="0">
+
+        <TableRow
+            android:id="@+id/tr_repeat_clock_time"
+            android:layout_width="match_parent"
+            android:background="@android:color/white"
+            android:paddingBottom="4.0dip"
+            android:paddingTop="4.0dip">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="重复"
+                    android:textSize="16.0sp"/>
+                <TextView
+                    android:id="@+id/tv_repeat_clock_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="每天"
+                    android:textColor="#cccccc"
+                    android:textSize="12.0sp"/>
+            </LinearLayout>
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/navigation_next_item"/>
+        </TableRow>
+        <!-- 画一条分割线-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="#696969"/>
+
+        <TableRow
+            android:id="@+id/tr_ring_clock"
+            android:layout_width="match_parent"
+            android:background="@android:color/white"
+            android:paddingBottom="4.0dip"
+            android:paddingTop="4.0dip">
+
+           <LinearLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               >
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="10dp"
+                   android:text="铃声"
+                   android:textSize="16.0sp"/>
+               <TextView
+                   android:id="@+id/tv_ring_clock"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="10dp"
+                   android:text="刚刚好"
+                   android:textColor="#cccccc"
+                   android:textSize="12.0sp"/>
+           </LinearLayout>
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/navigation_next_item"/>
+        </TableRow>
+        <!-- 画一条分割线-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="0.5dip"
+            android:background="#696969"/>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:background="@android:color/white"
+            android:paddingBottom="4.0dip"
+            android:paddingTop="4.0dip">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="振动"
+                    android:textSize="16.0sp"/>
+                <TextView
+                    android:id="@+id/hlep_tickling_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="铃声时振动"
+                    android:textColor="#cccccc"
+                    android:textSize="12.0sp"/>
+
+            </LinearLayout>
+
+
+            <Switch
+                android:id="@+id/sw_vibrate_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                />
+        </TableRow>
+        <!-- 画一条分割线-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="#696966"/>
+
+        <TableRow
+            android:id="@+id/tr_hint_content_clock"
+            android:layout_width="match_parent"
+            android:background="@android:color/white"
+            android:paddingBottom="4.0dip"
+            android:paddingTop="4.0dip">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="提醒内容"
+                    android:textSize="16.0sp"/>
+                <TextView
+                    android:id="@+id/tv_hint_content_clock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="关闭001-A阀门"
+                    android:textColor="#cccccc"
+                    android:textSize="12.0sp"/>
+
+    </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/navigation_next_item"/>
+        </TableRow>
+
+        <!-- 画一条分割线-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="#696966"/>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"></LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16.0sp"
+        android:text="设置时间:"/>
+    <Button
+        android:id="@+id/bt_setting_add_clock_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_actionbar_clock_sure_bt"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:text="08:12"
+        />
+
+</LinearLayout>

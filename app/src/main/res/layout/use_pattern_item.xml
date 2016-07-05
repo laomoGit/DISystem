@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:text="设置工作模式:" />
+
+    <RadioGroup
+        android:id="@+id/rg_use_pattern"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/rb_hand_movement_pattern"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="手动"
+            />
+        <RadioButton
+            android:id="@+id/rb_auto_movement_pattern"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="自动"/>
+    </RadioGroup>
+</LinearLayout>

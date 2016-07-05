@@ -34,7 +34,8 @@ public class NodeManager {
             try {
                 node = new Node(array.getJSONObject(i));
                 nodes.add(node);
-                LogInfo.info(node.getValueName());
+
+                LogInfo.info("usep="+node.getUsePattern());
                 LogInfo.info(node.getPressure()+"");
                 LogInfo.info(node.getStatus()+"");
             } catch (JSONException e) {
@@ -44,6 +45,22 @@ public class NodeManager {
         }
         return true;
 
+    }
+
+    public void modifyNode(Node node,boolean isAuto){
+        for(Node n:nodes){
+            if(node.getSysId()==n.getSysId()){
+                n.setUsePattern(isAuto);
+            }
+        }
+    }
+
+    public void modifyNode(Node node,int pressure){
+        for(Node n:nodes){
+            if(n.getPressure() == node.getPressure()){
+                n.setPressure(pressure);
+            }
+        }
     }
 
     public int getNodeCount(){

@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,23 +54,25 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
     private int userId;
 
     private static final int USER_EDIT_CODE = 0;
-    private static final String NODE_URL = "http://192.168.43.82:8080/DripIrrigationSystem/node";
+    private static final String NODE_URL = "http://192.168.155.1:8080/DripIrrigationSystem/node";
 
     private NodeService nodeService;
-    private NodeManager nodeManager;
+    private ProgressBar pb;
     private OnUIRequestCallback callback = new OnUIRequestCallback() {
         @Override
         public void onUIRequestStart() {
-
+            pb.setVisibility(View.VISIBLE);
         }
 
         @Override
         public void onUIRequestSuccess(String res) {
-
+            pb.setVisibility(View.GONE);
+            updateData();
         }
 
         @Override
         public void onUIRequestError(Exception e) {
+            pb.setVisibility(View.GONE);
             Toast.makeText(NodeActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     };
@@ -80,26 +83,32 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_node);
         userId = getIntent().getIntExtra("userId",0);
 
-        nodeService = new NodeService();
-        nodeService.sendRequest(NodeActivity.this,callback,NODE_URL,"GET","userid="+userId);
-        nodeManager = NodeManager.getInstance();
-
         mGridView = (GridView)findViewById(R.id.gridView);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawer_layout);
         mLvLeftMenu = (ListView) findViewById(R.id.id_lv_left_menu);
-        initNavigation();
-        setUpDrawer();
+        pb = (ProgressBar)findViewById(R.id.loading_process_dialog_progressBar);
+
 
         //是否返回有数据
         if(isInitData()){
-            nodeAdapter = new NodeAdapter(this,nodeManager.getNodes());
-            mGridView.setAdapter(nodeAdapter);
-            //监听
-            mGridView.setOnItemClickListener(this);
-            nodeAdapter.notifyDataSetChanged();
+            updateData();
+        }
+        nodeService = new NodeService();
+        if(NodeManager.getInstance().getNodeCount()<=0){
+            nodeService.sendRequest(NodeActivity.this,callback,NODE_URL,"GET","userid="+userId);
         }
 
+       // nodeService.sendRequest(NodeActivity.this,callback,NODE_URL,"GET","userid="+userId);
+        initNavigation();
+        setUpDrawer();
+    }
 
+    private void updateData() {
+
+        nodeAdapter = new NodeAdapter(this,NodeManager.getInstance().getNodes());
+        mGridView.setAdapter(nodeAdapter);
+        //监听
+        mGridView.setOnItemClickListener(this);
     }
 
     private void setUpDrawer() {
@@ -151,6 +160,10 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
                     case R.drawable.navigation_cancel:
                         finish();
                         break;
+                    case R.drawable.access_alarms:
+                        mIntent = new Intent(NodeActivity.this,ClockActivity.class);
+                        startActivity(mIntent);
+                        break;
                     default:
                         break;
                 }
@@ -172,13 +185,13 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
    private boolean isInitData() {
-       return nodeManager.getNodeCount()>0?true:false;
+       return NodeManager.getInstance().getNodeCount()>0?true:false;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             //响应点击事件
-        Node node = nodeManager.getNode(position);
+        Node node = NodeManager.getInstance().getNode(position);
         mIntent = new Intent();
         mIntent.setClass(this,NodeDetailActivity.class);
         Bundle bundle = new Bundle();

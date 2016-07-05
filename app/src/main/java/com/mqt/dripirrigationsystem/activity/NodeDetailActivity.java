@@ -1,18 +1,24 @@
 package com.mqt.dripirrigationsystem.activity;
 
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,10 +26,14 @@ import com.mqt.dripirrigationsystem.R;
 import com.mqt.dripirrigationsystem.dialog.CustemDialog;
 import com.mqt.dripirrigationsystem.domain.Node;
 import com.mqt.dripirrigationsystem.interfac.DialogCallbackListener;
+import com.mqt.dripirrigationsystem.interfac.OnUIRequestCallback;
 import com.mqt.dripirrigationsystem.linechart.ChartValue;
 import com.mqt.dripirrigationsystem.linechart.ChartValueSerie;
 import com.mqt.dripirrigationsystem.linechart.LineChartFragment;
 import com.mqt.dripirrigationsystem.linechart.LineChartView;
+import com.mqt.dripirrigationsystem.manager.NodeManager;
+import com.mqt.dripirrigationsystem.service.NodeDetailService;
+import com.mqt.dripirrigationsystem.utils.LogInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +42,15 @@ import java.util.List;
  * Created by Administrator on 2016/6/20.
  */
 public class NodeDetailActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+    private static final String USE_PATTERN_URL = "http://192.168.155.1:8080/DripIrrigationSystem/pattern";
+    private static final String NODE_PRESSURE = "http://192.168.155.1:8080/DripIrrigationSystem/pressure";
     //声明赋值的控件
     Button bt_Pressure;
     TextView tv_SensorT1Value;
     TextView tv_SensorT2Value;
     TextView tv_SensorH1Value;
     TextView tv_SensorH2Value;
-    TextView tv_UsePattern;
+    Button bt_usePattern;
     Button bt_EndData;
     Button bt_StarData;
     Spinner sp_Type;
@@ -48,17 +60,31 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
     ChartValueSerie greenLineValues;
     Node node;
 
+    View view;
+    RadioGroup rg;
+    RadioButton rb_hand;
+    RadioButton rb_auto;
+
+    Dialog patternDialog;
+
+    boolean isAuto;
+    int newPressure;
+
     private List<String> type_list;
     private ArrayAdapter<String>type_adapter;
 
     private CustemDialog dialog;
     private LineChartFragment lineChartFragment;
 
+    private NodeDetailService service;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.node_details);
+        //阀门服务
+        service = new NodeDetailService();
         //获得Node
         getNdoe();
         dialog = new CustemDialog(NodeDetailActivity.this);
@@ -79,12 +105,15 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
             }
         });
 
+        //工作模式弹出窗口
+        initPatternView();
 
         tv_SensorT1Value = (TextView) findViewById(R.id.soil_temperature_variate);
         tv_SensorT2Value = (TextView) findViewById(R.id.soil_temperature_variate2);
         tv_SensorH1Value = (TextView) findViewById(R.id.soil_humidity_variate);
         tv_SensorH2Value = (TextView) findViewById(R.id.soil_humidity_variate2);
-        tv_UsePattern = (TextView) findViewById(R.id.use_pattern_variate);
+        bt_usePattern = (Button) findViewById(R.id.use_pattern_variate);
+        bt_usePattern.setOnClickListener(this);
         lcv_lineChart = (LineChartView)findViewById(R.id.node_line_chart);
         initLineChart();
         sp_Type = (Spinner) findViewById(R.id.sp_type);
@@ -128,6 +157,27 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+    private void initPatternView() {
+        view = LayoutInflater.from(NodeDetailActivity.this).inflate(R.layout.use_pattern_item,null);
+
+        rb_hand = (RadioButton)view.findViewById(R.id.rb_hand_movement_pattern);
+        rb_auto = (RadioButton)view.findViewById(R.id.rb_auto_movement_pattern);
+        rg = (RadioGroup)view.findViewById(R.id.rg_use_pattern);
+
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                if(checkedId == rb_auto.getId()){
+                    isAuto = true;
+                }
+                if(checkedId == rb_hand.getId()){
+                    isAuto = false;
+                }
+            }
+        });
+    }
+
     private void initLineChart() {
         redLineValues = new ChartValueSerie(Color.RED,1);
         redLineValues.addPoint(new ChartValue("jan",99));
@@ -160,7 +210,20 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
         dialog.createPressureDialog(new DialogCallbackListener() {
             @Override
             public void onPositiveButton(View view) {
-                Toast.makeText(NodeDetailActivity.this,"haahh",Toast.LENGTH_SHORT).show();
+                EditText et_pressure = (EditText) view.findViewById(R.id.et_input_pressure);
+                //判断输入值规范性
+                try{
+                    newPressure = Integer.parseInt(et_pressure.getText().toString().trim());
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(NodeDetailActivity.this,"输入错误",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                service.sendRequest(NodeDetailActivity.this,
+                        callbackPressure,NODE_PRESSURE,"GET",
+                        "userid="+node.getUserId()+"&"+"sysid="
+                                +node.getSysId()+"&"+"pressure="+newPressure);
             }
 
             @Override
@@ -180,9 +243,9 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
         tv_SensorH1Value.setText(node.getSensorH1Value() + "%");
         tv_SensorH2Value.setText(node.getSensorH2Value() + "%");
         if (node.getUsePattern()) {
-            tv_UsePattern.setText("自动");
+            bt_usePattern.setText("自动");
         } else {
-            tv_UsePattern.setText("手动");
+            bt_usePattern.setText("手动");
         }
     }
 
@@ -225,8 +288,33 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
                     }
                 }).show();
                 break;
+            case R.id.use_pattern_variate:
+                Toast.makeText(NodeDetailActivity.this,"ko",Toast.LENGTH_SHORT).show();
+                showUsePattrenDialog();
+                break;
 
         }
+    }
+
+    private void showUsePattrenDialog() {
+        patternDialog= dialog.creatPatternDialog(view,node,new DialogCallbackListener() {
+            @Override
+            public void onPositiveButton(View view) {
+                    if(isAuto != node.getUsePattern()){
+                        service.sendRequest(NodeDetailActivity.this,
+                                callbackPattern,USE_PATTERN_URL,"GET",
+                                "userid="+node.getUserId()+"&"+
+                                        "sysid="+node.getSysId()+"&"+"usepattern="+isAuto);
+                    }
+            }
+
+            @Override
+            public void onNegativeButton(View view) {
+
+            }
+        });
+        //显示窗口
+        patternDialog.show();
     }
 
     @Override
@@ -243,4 +331,50 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
         Toast.makeText(this,"hhaha",Toast.LENGTH_SHORT).show();
     }
 
+
+    private OnUIRequestCallback callbackPattern = new OnUIRequestCallback() {
+        @Override
+        public void onUIRequestStart() {
+
+        }
+
+        @Override
+        public void onUIRequestSuccess(String res) {
+            patternDialog.dismiss();
+            NodeManager manager = NodeManager.getInstance();
+            manager.modifyNode(node,isAuto);
+            String usePat = "";
+            if(isAuto){
+                usePat = "自动";
+            }else{
+                usePat = "手动";
+            }
+            bt_usePattern.setText(usePat);
+
+        }
+
+        @Override
+        public void onUIRequestError(Exception e) {
+            Toast.makeText(NodeDetailActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    };
+
+
+    private OnUIRequestCallback callbackPressure = new OnUIRequestCallback() {
+        @Override
+        public void onUIRequestStart() {
+
+        }
+
+        @Override
+        public void onUIRequestSuccess(String res) {
+            NodeManager.getInstance().modifyNode(node,newPressure);
+            //bt_Pressure.setText(newPressure+"KPA");
+        }
+
+        @Override
+        public void onUIRequestError(Exception e) {
+            Toast.makeText(NodeDetailActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    };
 }

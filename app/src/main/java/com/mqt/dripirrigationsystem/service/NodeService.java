@@ -1,6 +1,7 @@
 package com.mqt.dripirrigationsystem.service;
 
 import com.mqt.dripirrigationsystem.manager.NodeManager;
+import com.mqt.dripirrigationsystem.utils.LogInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +19,7 @@ public class NodeService extends BaseService{
         try {
             JSONObject json = new JSONObject(response);
             JSONArray jsonArray = json.getJSONArray("node");
+            LogInfo.info("node="+jsonArray.toString());
             manager.saveNode(jsonArray);
         } catch (JSONException e) {
             e.printStackTrace();

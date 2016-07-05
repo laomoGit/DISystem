@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-
-
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,90 +18,137 @@
         <TableRow>
 
             <TextView
-                android:id="@+id/tv_number"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0"
                 android:layout_margin="10dp"
                 android:text="编号:"
                 android:textSize="15dp"
                 android:textStyle="italic"/>
+            <TextView
+                android:id="@+id/tv_number"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="15dp"
+                android:textStyle="italic"
+                />
         </TableRow>
 
         <TableRow>
 
             <TextView
-                android:id="@+id/tv_temper"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="2"
                 android:text="温度："
                 android:textSize="20dp"/>
+            <TextView
+                android:id="@+id/tv_temper"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:textSize="20dp"
+                />
 
             <TextView
-                android:id="@+id/tv_humidity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="2"
                 android:text="湿度："
                 android:textSize="20dp"/>
+            <TextView
+                android:id="@+id/tv_humidity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:textSize="20dp"
+                />
         </TableRow>
 
         <TableRow>
 
             <TextView
-                android:id="@+id/tv_airpressure"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="2"
                 android:text="风向："
                 android:textSize="20dp"/>
+            <TextView
+                android:id="@+id/tv_airpressure"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:textSize="20dp"
+                />
 
             <TextView
-                android:id="@+id/tv_airspeed"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="2"
                 android:text="风速："
                 android:textSize="20dp"/>
+            <TextView
+                android:id="@+id/tv_airspeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:textSize="20dp"
+                />
         </TableRow>
 
         <TableRow>
 
             <TextView
-                android:id="@+id/tv_illumination"
-                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_weight="2"
-                android:text="光照强度："
+                android:layout_weight="0"
+                android:text="光照强度:"
+                android:textSize="20dp"/>
+            <TextView
+                android:id="@+id/tv_illumination"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:textSize="20dp"
+                />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="雨量:"
                 android:textSize="20dp"/>
 
             <TextView
                 android:id="@+id/tv_radiate"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_weight="2"
-                android:text="雨量："
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                />
         </TableRow>
-
         <TableRow>
 
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="0"
+                android:text="上传时间："
+                android:textSize="20dp"/>
             <TextView
                 android:id="@+id/tv_recvTime"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:text="上传时间："
                 android:textSize="20dp"/>
         </TableRow>
     </TableLayout>
-    <!--
     <View
         android:layout_width="match_parent"
         android:layout_height="1dip"
@@ -161,6 +205,12 @@
             android:layout_marginLeft="20dp"/>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"></RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -179,7 +229,7 @@
             android:layout_height="wrap_content"
             android:text="查询"/>
 
-    </LinearLayout>-->
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

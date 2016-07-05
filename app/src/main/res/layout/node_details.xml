@@ -3,9 +3,6 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
-
-
-
 	<LinearLayout
 
 		android:layout_width="match_parent"
@@ -39,12 +36,12 @@
 					android:text="工作模式："
 					android:textSize="18sp"/>
 
-				<TextView
+				<Button
 					android:id="@+id/use_pattern_variate"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:text="null"
-					android:textSize="18sp"/>
+					android:textSize="14sp"
+					/>
 
 			</LinearLayout>
 
@@ -66,7 +63,6 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:textSize="14sp"/>
-
 			</LinearLayout>
 
 		</LinearLayout>
@@ -78,8 +74,6 @@
 			android:paddingLeft="8dp"
 			android:text="土壤信息："
 			android:textSize="20sp"/>
-
-
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -156,15 +150,26 @@
 
 		</LinearLayout>
 
-
-		<TextView
-			android:layout_width="wrap_content"
+		<LinearLayout
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:paddingBottom="6dp"
-			android:paddingLeft="8dp"
-			android:paddingTop="10dp"
-			android:text="历史查询："
-			android:textSize="20sp"/>
+			android:orientation="horizontal">
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingBottom="6dp"
+				android:paddingLeft="8dp"
+				android:paddingTop="10dp"
+				android:text="历史查询："
+				android:textSize="20sp"/>
+			<TextView
+				android:id="@+id/time_scope"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="历史时间范围"
+				/>
+		</LinearLayout>
+
 
 		<LinearLayout
 			android:layout_width="match_parent"

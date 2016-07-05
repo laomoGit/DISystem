@@ -2,6 +2,7 @@ package com.mqt.dripirrigationsystem.dialog;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -9,12 +10,18 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.mqt.dripirrigationsystem.R;
+import com.mqt.dripirrigationsystem.domain.Node;
 import com.mqt.dripirrigationsystem.interfac.DialogCallbackListener;
 import com.mqt.dripirrigationsystem.linechart.ChartValue;
 import com.mqt.dripirrigationsystem.linechart.ChartValueSerie;
 import com.mqt.dripirrigationsystem.linechart.LineChartView;
+import com.mqt.dripirrigationsystem.utils.LogInfo;
 
 import java.util.Calendar;
 
@@ -109,5 +116,35 @@ public class CustemDialog {
 
         return builder.create();
     }*/
+
+    public Dialog creatPatternDialog(final View view, final Node node, final DialogCallbackListener listener){
+        boolean isAuto = false;
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+
+        builder.setView(view);
+        builder.setPositiveButton("上传", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+               listener.onPositiveButton(view);
+            }
+        });
+
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                listener.onNegativeButton(view);
+            }
+        });
+
+        return builder.create();
+
+    }
+
+    public TimePickerDialog createTimeDialog(int hour, int minute, TimePickerDialog.OnTimeSetListener callback){
+        TimePickerDialog timePickerDialog = new TimePickerDialog(mContext,callback,hour,minute,true);
+
+        return timePickerDialog;
+    }
 
 }

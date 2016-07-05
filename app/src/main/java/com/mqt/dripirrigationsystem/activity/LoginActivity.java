@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.mqt.dripirrigationsystem.R;
@@ -29,22 +30,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final String USER_NAME = "userName";
     private static final String PASSWORD = "password";
     private static final String USER_ID = "userId";
-    private static final String LOGIN_URL = "http://192.168.43.82:8080/DripIrrigationSystem/login";
+    private static final String LOGIN_URL = "http://192.168.155.1:8080/DripIrrigationSystem/login";
 
     private EditText et_username;
     private EditText et_psswd;
     private Button bt_login;
     private CheckBox cb_remember;
 
-    private ProgressDialog progressDialog;
+    private ProgressBar pb;
     private SharedPreferences spf;
 
     private OnUIRequestCallback callback = new OnUIRequestCallback() {
         @Override
         public void onUIRequestStart() {
-            progressDialog = new ProgressDialog(LoginActivity.this);
-            progressDialog.setTitle("请稍后");
-            progressDialog.show();
+            pb.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -70,7 +69,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         @Override
         public void onUIRequestError(Exception e) {
-            progressDialog.dismiss();
+            pb.setVisibility(View.GONE);
             Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
 
         }
@@ -85,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         et_username = (EditText)findViewById(R.id.wel_username_et);
         et_psswd = (EditText)findViewById(R.id.wel_password_et);
         bt_login = (Button)findViewById(R.id.requst_btn);
+        pb = (ProgressBar)findViewById(R.id.login_process_dialog_progressBar);
         cb_remember = (CheckBox)findViewById(R.id.login_checkbox);
         //登录
         bt_login.setOnClickListener(this);
@@ -107,7 +107,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             LoginService service = new LoginService();
             boolean isLogin = service.isLogin(LoginActivity.this,
                     et_username.getText().toString(),et_psswd.getText().toString());
-            if(isLogin){
+          /* Intent mainActivity = new Intent(LoginActivity.this,NodeActivity.class);
+           // mainActivity.putExtra("userId",manager.getUser(0).getUserId());
+            startActivity(mainActivity);
+            LoginActivity.this.finish();*/
+           if(isLogin){
                 service.sendRequest(LoginActivity.this,callback,
                         LOGIN_URL,"GET","username="+et_username.getText().toString()+"&"+"password="+et_psswd.getText().toString());
             }

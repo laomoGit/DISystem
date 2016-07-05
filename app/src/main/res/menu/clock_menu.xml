@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:id="@+id/menu_add_clock"
+            android:icon="@android:drawable/ic_menu_add"
+            android:title="添加闹钟"
+            android:showAsAction="ifRoom|withText"/>
+        <item
+                android:id="@+id/menu_setting_clock"
+                android:icon="@android:drawable/ic_menu_edit"
+                android:title="设置"
+                android:showAsAction="ifRoom|withText"/>
+</menu>
