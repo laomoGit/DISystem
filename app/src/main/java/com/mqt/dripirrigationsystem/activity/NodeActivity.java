@@ -54,7 +54,8 @@ public class NodeActivity extends AppCompatActivity implements AdapterView.OnIte
     private int userId;
 
     private static final int USER_EDIT_CODE = 0;
-    private static final String NODE_URL = "http://192.168.155.1:8080/DripIrrigationSystem/node";
+    //private static final String NODE_URL = "http://192.168.155.1:8080/DripIrrigationSystem/node";
+    private static final String NODE_URL = "http://192.168.43.82:8080/DripIrrigationSystem/node";
 
     private NodeService nodeService;
     private ProgressBar pb;

@@ -30,7 +30,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final String USER_NAME = "userName";
     private static final String PASSWORD = "password";
     private static final String USER_ID = "userId";
-    private static final String LOGIN_URL = "http://192.168.155.1:8080/DripIrrigationSystem/login";
+    //private static final String LOGIN_URL = "http://192.168.155.1:8080/DripIrrigationSystem/login";
+    private static final String LOGIN_URL = "http://192.168.43.82:8080/DripIrrigationSystem/login";
 
     private EditText et_username;
     private EditText et_psswd;

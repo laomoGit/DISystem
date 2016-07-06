@@ -3,18 +3,25 @@ package com.mqt.dripirrigationsystem.activity;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -31,9 +38,12 @@ import com.mqt.dripirrigationsystem.linechart.ChartValue;
 import com.mqt.dripirrigationsystem.linechart.ChartValueSerie;
 import com.mqt.dripirrigationsystem.linechart.LineChartFragment;
 import com.mqt.dripirrigationsystem.linechart.LineChartView;
+import com.mqt.dripirrigationsystem.manager.HistoryManager;
 import com.mqt.dripirrigationsystem.manager.NodeManager;
 import com.mqt.dripirrigationsystem.service.NodeDetailService;
 import com.mqt.dripirrigationsystem.utils.LogInfo;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +52,15 @@ import java.util.List;
  * Created by Administrator on 2016/6/20.
  */
 public class NodeDetailActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
-    private static final String USE_PATTERN_URL = "http://192.168.155.1:8080/DripIrrigationSystem/pattern";
-    private static final String NODE_PRESSURE = "http://192.168.155.1:8080/DripIrrigationSystem/pressure";
+    //private static final String USE_PATTERN_URL = "http://192.168.155.1:8080/DripIrrigationSystem/pattern";
+    //private static final String NODE_PRESSURE = "http://192.168.155.1:8080/DripIrrigationSystem/pressure";
+    //private static final String NODE_HISTORY_URL = "http://192.168.155.1:8080/DripIrrigationSystem/hisquery";
+    private static final String USE_PATTERN_URL = "http://192.168.43.82:8080/DripIrrigationSystem/pattern";
+    private static final String NODE_PRESSURE = "http://192.168.43.82:8080/DripIrrigationSystem/pressure";
+    private static final String NODE_HISTORY_URL = "http://192.168.43.82:8080/DripIrrigationSystem/hisquery";
+
+    private HistoryManager historyManager;
+
     //声明赋值的控件
     Button bt_Pressure;
     TextView tv_SensorT1Value;
@@ -60,40 +77,39 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
     ChartValueSerie greenLineValues;
     Node node;
 
-    View view;
-    RadioGroup rg;
-    RadioButton rb_hand;
-    RadioButton rb_auto;
-
     Dialog patternDialog;
+    String startDate;
+    String endDate;
 
     boolean isAuto;
     int newPressure;
+    View parent;
 
     private List<String> type_list;
     private ArrayAdapter<String>type_adapter;
 
     private CustemDialog dialog;
-    private LineChartFragment lineChartFragment;
-
     private NodeDetailService service;
+    private LinearLayout linearLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.node_details);
+        parent = LayoutInflater.from(NodeDetailActivity.this).inflate(R.layout.node_details,null);
+        setContentView(parent);
         //阀门服务
         service = new NodeDetailService();
         //获得Node
         getNdoe();
         dialog = new CustemDialog(NodeDetailActivity.this);
+
         //初始化控件
         initWidget();
     }
 
     private void initWidget() {
         //setTitle(node.getValveName());
+        linearLayout = (LinearLayout)findViewById(R.id.node_linearLayout);
         //返回键
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         bt_Pressure = (Button) findViewById(R.id.pressure_variate);
@@ -105,8 +121,6 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
             }
         });
 
-        //工作模式弹出窗口
-        initPatternView();
 
         tv_SensorT1Value = (TextView) findViewById(R.id.soil_temperature_variate);
         tv_SensorT2Value = (TextView) findViewById(R.id.soil_temperature_variate2);
@@ -114,8 +128,7 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
         tv_SensorH2Value = (TextView) findViewById(R.id.soil_humidity_variate2);
         bt_usePattern = (Button) findViewById(R.id.use_pattern_variate);
         bt_usePattern.setOnClickListener(this);
-        lcv_lineChart = (LineChartView)findViewById(R.id.node_line_chart);
-        initLineChart();
+
         sp_Type = (Spinner) findViewById(R.id.sp_type);
         bt_query = (Button) findViewById(R.id.query_button);
         bt_StarData = (Button) findViewById(R.id.start_time_bt);
@@ -135,76 +148,13 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
         type_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //加载适配器
         sp_Type.setAdapter(type_adapter);
-        bt_query.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int valveId = node.getSysId();
-                int sensorTypeId = 3;
-                Toast.makeText(NodeDetailActivity.this,"haha",Toast.LENGTH_SHORT).show();
-                //manager = HistroyManager.getInstanc();
-               // manager.clean();
-               // manager.request(NodeDetailsActivity.this, callback, UrlConfig.BASEURL + "GetAllHisDataJson",
-                        //"valveId=" + valveId + "&" + "sensorTypeId=" + sensorTypeId + "&" + "startTime=" + tx_StarData.getText() + "&" + "endTime=" + tx_EndData.getText());
-
-               /* LineChartFragment lineChartFragment = new LineChartFragment();
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction transaction = fm.beginTransaction();
-                //transaction.replace(R.id.spread_line_chart,lineChartFragment);
-                transaction.commit();*/
-                lcv_lineChart.deleteSerie(redLineValues);
-            }
-        });
+        bt_query.setOnClickListener(this);
 
     }
 
-    private void initPatternView() {
-        view = LayoutInflater.from(NodeDetailActivity.this).inflate(R.layout.use_pattern_item,null);
-
-        rb_hand = (RadioButton)view.findViewById(R.id.rb_hand_movement_pattern);
-        rb_auto = (RadioButton)view.findViewById(R.id.rb_auto_movement_pattern);
-        rg = (RadioGroup)view.findViewById(R.id.rg_use_pattern);
-
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-                if(checkedId == rb_auto.getId()){
-                    isAuto = true;
-                }
-                if(checkedId == rb_hand.getId()){
-                    isAuto = false;
-                }
-            }
-        });
-    }
-
-    private void initLineChart() {
-        redLineValues = new ChartValueSerie(Color.RED,1);
-        redLineValues.addPoint(new ChartValue("jan",99));
-        redLineValues.addPoint(new ChartValue("feb",80));
-        redLineValues.addPoint(new ChartValue("mar",30));
-        redLineValues.addPoint(new ChartValue("apr",99));
-        redLineValues.addPoint(new ChartValue("may",80));
-        redLineValues.addPoint(new ChartValue("jun",50));
-        redLineValues.addPoint(new ChartValue("jul",20));
-        redLineValues.addPoint(new ChartValue("aug",50));
-        redLineValues.addPoint(new ChartValue("sep",80));
-
-        greenLineValues = new ChartValueSerie(Color.GREEN,2);
-        greenLineValues.addPoint(new ChartValue("jan",99));
-        greenLineValues.addPoint(new ChartValue("feb",80));
-        greenLineValues.addPoint(new ChartValue("mar",46));
-        greenLineValues.addPoint(new ChartValue("apr",56));
-        greenLineValues.addPoint(new ChartValue("may",80));
-        greenLineValues.addPoint(new ChartValue("jun",50));
-        greenLineValues.addPoint(new ChartValue("jul",78));
-        greenLineValues.addPoint(new ChartValue("aug",50));
-        greenLineValues.addPoint(new ChartValue("sep",80));
-
-        lcv_lineChart.addSerie(redLineValues);
-        lcv_lineChart.addSerie(greenLineValues);
-    }
-
+    /**
+     * 显示水压值修改窗口
+     */
     private void showPressureDialog() {
         //如果改变水压值，弹出对话框，是否上传服务端
         dialog.createPressureDialog(new DialogCallbackListener() {
@@ -259,44 +209,110 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.start_time_bt:
-                dialog.createDateDialog("设置开始时间", new DialogCallbackListener() {
-                    @Override
-                    public void onPositiveButton(View view) {
-                        DatePicker datePicker = (DatePicker) view;
-                        int year = datePicker.getYear();
-                        int month = datePicker.getMonth();
-                        int day = datePicker.getDayOfMonth();
-                        Toast.makeText(NodeDetailActivity.this,"---"+year,Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNegativeButton(View view) {
-
-                    }
-                }).show();
+               showStartDateDialog();
                 break;
             case R.id.end_time_bt:
-                dialog.createDateDialog("设置结束时间", new DialogCallbackListener() {
-                    @Override
-                    public void onPositiveButton(View view) {
-
-                    }
-
-                    @Override
-                    public void onNegativeButton(View view) {
-
-                    }
-                }).show();
+                showEndDateDialog();
                 break;
             case R.id.use_pattern_variate:
-                Toast.makeText(NodeDetailActivity.this,"ko",Toast.LENGTH_SHORT).show();
                 showUsePattrenDialog();
+                break;
+            case R.id.query_button:
+                if(!TextUtils.isEmpty(startDate) && !TextUtils.isEmpty(endDate)){
+                    service.sendRequest(NodeDetailActivity.this,
+                            callbackHistoryQuery,NODE_HISTORY_URL,"GET",
+                            "userid="+node.getUserId()+"&"+"sysid="+node.getSysId()
+                            +"&"+"time1="+startDate+"&"+"time2="+endDate);
+                }
                 break;
 
         }
     }
 
+    /**
+     * 设置历史查询开始时间
+     */
+    private void showStartDateDialog() {
+        dialog.createDateDialog("设置开始时间", new DialogCallbackListener() {
+            @Override
+            public void onPositiveButton(View view) {
+                DatePicker datePicker = (DatePicker) view;
+                int year = datePicker.getYear();
+                int month = datePicker.getMonth()+1;
+                int day = datePicker.getDayOfMonth();
+                if(month<10){
+                    startDate = year+"-0"+month;
+                }else{
+                    startDate = year+"-"+month;
+                }if(day<10){
+                    startDate +="-0"+day;
+                }else{
+                    startDate +="-"+day;
+                }
+
+                bt_StarData.setText(startDate);
+            }
+
+            @Override
+            public void onNegativeButton(View view) {
+
+            }
+        }).show();
+    }
+
+    /**
+     * 设置历史查询结束时间窗口
+     */
+    private void showEndDateDialog() {
+        dialog.createDateDialog("设置结束时间", new DialogCallbackListener() {
+            @Override
+            public void onPositiveButton(View view) {
+                DatePicker datePicker = (DatePicker) view;
+                int year = datePicker.getYear();
+                int month = datePicker.getMonth()+1;
+                int day = datePicker.getDayOfMonth();
+                if(month<10){
+                    endDate = year+"-0"+month;
+                }else{
+                    endDate = year+"-"+month;
+                }if(day<10){
+                    endDate +="-0"+day;
+                }else{
+                    endDate +="-"+day;
+                }
+                bt_EndData.setText(endDate);
+            }
+
+            @Override
+            public void onNegativeButton(View view) {
+
+            }
+        }).show();
+    }
+
+    /**
+     * 显示阀门工作模式修改窗口
+     */
     private void showUsePattrenDialog() {
+        View view = LayoutInflater.from(NodeDetailActivity.this).inflate(R.layout.use_pattern_item,null);
+
+        final RadioButton rb_hand = (RadioButton)view.findViewById(R.id.rb_hand_movement_pattern);
+        final RadioButton rb_auto = (RadioButton)view.findViewById(R.id.rb_auto_movement_pattern);
+        RadioGroup rg = (RadioGroup)view.findViewById(R.id.rg_use_pattern);
+
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                if(checkedId == rb_auto.getId()){
+                    isAuto = true;
+                }
+                if(checkedId == rb_hand.getId()){
+                    isAuto = false;
+                }
+            }
+        });
+
         patternDialog= dialog.creatPatternDialog(view,node,new DialogCallbackListener() {
             @Override
             public void onPositiveButton(View view) {
@@ -332,6 +348,9 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
 
+    /**
+     * 阀门工作模式修改回调接口
+     */
     private OnUIRequestCallback callbackPattern = new OnUIRequestCallback() {
         @Override
         public void onUIRequestStart() {
@@ -340,9 +359,10 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public void onUIRequestSuccess(String res) {
-            patternDialog.dismiss();
+            Toast.makeText(NodeDetailActivity.this,res,Toast.LENGTH_SHORT).show();
             NodeManager manager = NodeManager.getInstance();
             manager.modifyNode(node,isAuto);
+            node.setUsePattern(isAuto);
             String usePat = "";
             if(isAuto){
                 usePat = "自动";
@@ -360,6 +380,9 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
     };
 
 
+    /**
+     * 阀门水压值修改回调
+     */
     private OnUIRequestCallback callbackPressure = new OnUIRequestCallback() {
         @Override
         public void onUIRequestStart() {
@@ -368,10 +391,58 @@ public class NodeDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public void onUIRequestSuccess(String res) {
+            Toast.makeText(NodeDetailActivity.this,res,Toast.LENGTH_SHORT).show();
             NodeManager.getInstance().modifyNode(node,newPressure);
-            //bt_Pressure.setText(newPressure+"KPA");
+            bt_Pressure.setText(String.valueOf(newPressure)+"KPA");
         }
 
+        @Override
+        public void onUIRequestError(Exception e) {
+            Toast.makeText(NodeDetailActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    /**
+     * 历史查询回调接口
+     */
+    private OnUIRequestCallback callbackHistoryQuery = new OnUIRequestCallback() {
+        @Override
+        public void onUIRequestStart() {
+
+        }
+
+        @Override
+        public void onUIRequestSuccess(String res) {
+            historyManager = new HistoryManager();
+            historyManager.saveHistories(res);
+            int hisCount = historyManager.histories.size();
+            if(hisCount<1){
+                Toast.makeText(NodeDetailActivity.this,"没有查询结果",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            hisCount = hisCount<11?hisCount:10;
+
+            LogInfo.info("hiscount=="+hisCount);
+            LineChartView view = new LineChartView(NodeDetailActivity.this);
+            LinearLayout.LayoutParams layoutParams =
+                    new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
+            ChartValueSerie serieGreen = new ChartValueSerie(Color.GREEN,1);
+            ChartValueSerie serieBlue = new ChartValueSerie(Color.BLUE);
+            view.setLayoutParams(layoutParams);
+
+            for(int i=0;i<hisCount;i++){
+                //一号温度和湿度
+                LogInfo.info(historyManager.histories.get(i).getRecvTime());
+                serieGreen.addPoint(new ChartValue(String.valueOf(i+1)
+                        ,historyManager.histories.get(i).getSensorT1Value()));
+                serieBlue.addPoint(new ChartValue(String.valueOf(i+1)
+                        ,historyManager.histories.get(i).getSensorH1Value()));
+            }
+            view.addSerie(serieGreen);
+            view.addSerie(serieBlue);
+            linearLayout.addView(view);
+        }
         @Override
         public void onUIRequestError(Exception e) {
             Toast.makeText(NodeDetailActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();

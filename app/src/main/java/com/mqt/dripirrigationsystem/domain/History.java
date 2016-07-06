@@ -15,6 +15,32 @@ public class History {
     private int sensorH2Value;
     private int pressure;
     private String recvTime;
+    private int hisId;
+    private int userId;
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public int getHisId() {
+        return hisId;
+    }
+
+    public void setHisId(int hisId) {
+        this.hisId = hisId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public History(JSONObject obj) throws JSONException {
         if (obj.has("sysId")) {
@@ -46,6 +72,12 @@ public class History {
         }
         if (obj.has("recvTime")) {
             recvTime = obj.getString("recvTime");
+        }
+        if(obj.has("hisId")){
+            hisId = obj.getInt("hisId");
+        }
+        if(obj.has("userId")){
+            userId = obj.getInt("userId");
         }
     }
 

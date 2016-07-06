@@ -21,6 +21,6 @@ public class NodeDetailService extends BaseService{
 
     @Override
     protected void onResponseToJson(String response) {
-        Toast.makeText(this.activity,response,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this.activity,response,Toast.LENGTH_SHORT).show();
     }
 }
